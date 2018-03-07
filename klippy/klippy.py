@@ -7,7 +7,7 @@
 import sys, os, optparse, logging, time, threading
 import collections, ConfigParser, importlib
 import util, reactor, queuelogger, msgproto
-import gcode, pins, mcu, chipmisc, toolhead, extruder, heater
+import gcode, pins, temperature, mcu, chipmisc, toolhead, extruder, heater
 
 message_ready = "Printer is ready"
 
@@ -205,7 +205,7 @@ class Printer:
             ConfigLogger(fileconfig, self.bglogger)
         # Create printer components
         config = ConfigWrapper(self, fileconfig, 'printer')
-        for m in [pins, mcu]:
+        for m in [pins, mcu, temperature]:
             m.add_printer_objects(self, config)
         for section in fileconfig.sections():
             self._try_load_module(config, section)
